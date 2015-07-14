@@ -11,9 +11,10 @@
 
   List102 = (function() {
     function List102() {
-      var _func, new_code, next_key, prev_key, source;
-      next_key = "'" + this.generateKey() + "'";
-      prev_key = "'" + this.generateKey() + "'";
+      var _func, key, new_code, next_key, prev_key, source;
+      key = this.generateKey();
+      next_key = 'n' + key;
+      prev_key = 'p' + key;
       for (_func in this) {
         if (typeof this[_func] === 'function' && _func !== 'generateKey') {
           source = this[_func] + "";
@@ -31,7 +32,7 @@
         global._list_102_keys = [];
       }
       while (true) {
-        key = Math.random().toString(36);
+        key = Math.random().toString(36).replace('.', '');
         if (_list_102_keys.indexOf(key) === -1) {
           _list_102_keys.push(key);
           return key;
@@ -40,46 +41,46 @@
     };
 
     List102.prototype.init = function(list) {
-      list[next_key] = list;
-      return list[prev_key] = list;
+      list.next_key = list;
+      return list.prev_key = list;
     };
 
     List102.prototype.peek = function(list) {
-      if (list[prev_key] === list) {
+      if (list.prev_key === list) {
         return null;
       } else {
-        return list[prev_key];
+        return list.prev_key;
       }
     };
 
     List102.prototype.shift = function(list) {
       var first;
-      first = list[prev_key];
+      first = list.prev_key;
       this.remove(first);
       return first;
     };
 
     List102.prototype.remove = function(item) {
-      if (item[next_key]) {
-        item[next_key][prev_key] = item[prev_key];
+      if (item.next_key) {
+        item.next_key.prev_key = item.prev_key;
       }
-      if (item[prev_key]) {
-        item[prev_key][next_key] = item[next_key];
+      if (item.prev_key) {
+        item.prev_key.next_key = item.next_key;
       }
-      item[next_key] = null;
-      return item[prev_key] = null;
+      item.next_key = null;
+      return item.prev_key = null;
     };
 
     List102.prototype.append = function(list, item) {
       this.remove(item);
-      item[next_key] = list[next_key];
-      list[next_key][prev_key] = item;
-      item[prev_key] = list;
-      return list[next_key] = item;
+      item.next_key = list.next_key;
+      list.next_key.prev_key = item;
+      item.prev_key = list;
+      return list.next_key = item;
     };
 
     List102.prototype.isEmpty = function(list) {
-      return list[next_key] === list;
+      return list.next_key === list;
     };
 
     return List102;
