@@ -32,7 +32,8 @@
       }
       while (true) {
         key = Math.random().toString(36);
-        if (global._list_102_keys.indexOf(key) === -1) {
+        if (_list_102_keys.indexOf(key) === -1) {
+          _list_102_keys.push(key);
           return key;
         }
       }

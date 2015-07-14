@@ -27,7 +27,10 @@ class List102
 
         loop
             key = Math.random().toString(36)
-            return key if global._list_102_keys.indexOf(key)==-1
+            
+            if _list_102_keys.indexOf(key)==-1
+                _list_102_keys.push(key)
+                return key
 
     init: (list)->
         list[next_key] = list
